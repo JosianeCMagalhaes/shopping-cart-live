@@ -1,0 +1,6 @@
+fastapi
+fastapi-mail
+uvicorn
+pydantic
+peewee
+redis
