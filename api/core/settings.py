@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     DATABASE_PASSWORD: str =''
     DATABASE_HOST: str = ''
     DATABASE_NAME: str = 'luizacode.db'
+    HOST='0.0.0.0'
     
     
 settings = Settings()

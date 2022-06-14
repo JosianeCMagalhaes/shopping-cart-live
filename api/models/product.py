@@ -1,15 +1,23 @@
-import peewee
-from db.database import database
+from typing import Optional
+from pydantic import BaseModel, Field
 
+class ProductSchema(BaseModel):
+    name: str = Field(max_length=100)
+    description: str
+    price: float
+    image: str = Field(max_length=100, unique=True)
+    code: int 
 
-class Product(peewee.Model):
-    name = peewee.CharField(max_length=100)
-    description = peewee.TextField()
-    price = peewee.DecimalField(max_digits=10, decimal_places=2)
-    weight = peewee.DecimalField()
-    code = peewee.CharField()
+class ProductUpdatedSchema(BaseModel):
+    name: Optional[str]
+    description: Optional[str]
+    price: Optional[float]
+    image: Optional[str]
+    code: int
     
-    class Meta:
-        db = database
+class ProductList(ProductSchema):
+    _id: str
+    code: str
     
-    
+    class Config:
+        orm_mode = True

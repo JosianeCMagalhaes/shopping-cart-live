@@ -1,20 +1,30 @@
-from fastapi import APIRouter, Depends, status
-from cruds.product import create_product, get_product, get_products
-from db.database import database
-from schemas.product import ProductList
+from fastapi import APIRouter, status
+from fastapi.responses import JSONResponse
+from api.models.product import ProductList, ProductUpdatedSchema
+from api.cruds.product import get_product, get_all_products, create_product, delete_product, update_product
 from typing import List
 
-router = APIRouter(tags=['Admin Products'], prefix='/admin/products')
+router = APIRouter(tags=['Admin Product'], prefix='/admin/product')
 
-@router.post('/create', response_model=ProductList, dependencies=[Depends(database)])
-def create(name, description, price, weight, code):
-    return create_product(name, description, price, weight, code)
+@router.post('', response_model=ProductList)
+async def create(name, description, price, image, code):
+    product = await create_product(name, description, price, image, code)
+    return product
 
-@router.get('/list', response_model=List(ProductList), dependencies=[Depends(database)])
-def list(skip, limit):
-    return get_products(skip, limit)
+@router.get('', response_model=List[ProductList])
+async def list(skip, limit):
+    return await get_all_products(skip, limit)
 
-@router.get('/detail/{product_id}', response_model=ProductList, dependencies=[Depends(database)])
-def product(product_id):
-    return get_product(product_id)
+@router.get('/{product_id}', response_model=List[ProductList])
+async def product(product_id):
+    return await get_product(product_id)
 
+@router.delete('/{product_id}')
+async def delete(product_id):
+    await delete_product(product_id)
+    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content={'message': 'Product deleted.'})
+
+@router.put('/{product_id}', response_model=List[ProductList])
+async def update(product_id, product_request: ProductUpdatedSchema):
+    product = await update_product(product_id, product_request)
+    return product

@@ -1,13 +1,24 @@
-import peewee
-from api.db.database import database
+from operator import index
+from optparse import Option
+from typing import Optional
+from click import password_option
+from pydantic import BaseModel, Field
 
-
-class Customer(peewee.Model):
-    name = peewee.CharField()
-    email = peewee.CharField(unique=True, index=True)
-    password = peewee.CharField()
-    is_active = peewee.BooleanField(default=True)
-    is_adm = peewee.BooleanField(default=False)
+class CustomerSchema(BaseModel):
+    email: str = Field(unique=True, index=True)
+    password: str
+    is_active: bool = Field(default=True)
+    is_admin: bool = Field(default=True)
     
-    class Meta:
-        db = database
+class CustomerSchemaUpdate(BaseModel):
+    email: Optional[str]
+    password: Optional[str]
+    is_active: Optional[bool]
+    is_admin: Optional[bool]
+    
+class CustomerList(CustomerSchema):
+    _id: str
+    email: str
+    
+    class Config:
+        orm_mode = True

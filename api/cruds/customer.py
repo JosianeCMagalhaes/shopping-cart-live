@@ -1,21 +1,27 @@
+from utils import Hash, _get_field_or_404, fix_id
+from api.server.database import db
+from api.models.customer import  CustomerSchema
 
-from models.customer import Customer
-from schemas.customer import CustomerCreate
-from utils import Hash
 
-
-def create_customer(customer: CustomerCreate):
-    pwd_hash = hash.bcrypt(customer.password)
-    db_customer = Customer(name=customer.name, email=customer.email, password=pwd_hash, is_active=True, is_adm=False)
-    db_customer.save()
-    return db_customer
-
-def get_customer(customer_id):
-    return Customer.filter(Customer.id == customer_id).first()
-
-def get_customers(skip=0, limit=50):
-    return list(Customer.select().offset(skip).limit(limit))
-
-def get_customer_by_email(email):
-    return Customer.filter(Customer.email == email).first()
+async def create_customer(customer: CustomerSchema):
+    password = Hash.encrypt(customer.password)
+    customer['password'] = password
+    customer = await db.customer_db.insert_one(customer.dict())
     
+    if customer.inserted_id:
+        customer = await _get_field_or_404(customer.inserted_id, db.customer_db, 'customer')
+        return customer
+    
+async def get_customer(customer_id):
+    customer = await _get_field_or_404(customer_id, db.customer_db, 'customer')
+    return customer
+
+async def get_all_customers(skip=0, limit=50):
+    customer_cursor = db.customer_db.find().skip(skip).limit(limit)
+    customers = await customer_cursor.to_list(length=limit)
+    return list(map(fix_id, customers))
+
+async def get_customer_by_email(email):
+    return await db.customer_db.filter(email=email)
+
+        

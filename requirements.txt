@@ -4,3 +4,5 @@ uvicorn
 pydantic
 peewee
 redis
+motor
+logging
