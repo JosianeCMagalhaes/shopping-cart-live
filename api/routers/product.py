@@ -1,8 +1,8 @@
+from typing import List
 from fastapi import APIRouter, status
 from starlette.responses import JSONResponse
 from api.schemas.product import ProductList
 from api.cruds.product import get_product, get_all_products
-from typing import List
 
 router = APIRouter(tags=['Products'], prefix='/products')
 

@@ -15,7 +15,7 @@ async def user(user: UserSchema = Depends(get_current_user)):
 async def register(background_tasks: BackgroundTasks, user: UserSchema):
     user_db = await get_user_by_email(email=user.email)
     if user_db:
-        return JSONResponse(status_code=status.HTTP_409_CONFLICT, content={'data': 'Email already registered'})
+        return JSONResponse(status_code=status.HTTP_409_CONFLICT, content={'message': 'Email already registered'})
 
     user = await create_user(user)
     
@@ -25,7 +25,7 @@ async def register(background_tasks: BackgroundTasks, user: UserSchema):
         background_tasks=background_tasks
     )
 
-    return JSONResponse(status_code=status.HTTP_200_OK, content={'data': {'user': user}})
+    return JSONResponse(status_code=status.HTTP_200_OK, content=user)
 
 @router.post('/activate')
 async def activate_account_user(active: EmailActivate):

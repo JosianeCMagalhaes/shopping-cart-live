@@ -1,10 +1,11 @@
-from imp import reload
+import logging
 import uvicorn
 from fastapi import FastAPI
 from api.routers import api_router
 from api.core import settings
 from api.server.database import connect_db, close_conn_db
 
+logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
 
 app = FastAPI(title=settings.NAME_APP)
 
@@ -16,4 +17,4 @@ app.add_event_handler('shutdown', close_conn_db)
 app.include_router(api_router)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=settings.HOST, port=3000, reload=True)
+    uvicorn.run(app, host=settings.HOST, port=settings.PORT, reload=True)

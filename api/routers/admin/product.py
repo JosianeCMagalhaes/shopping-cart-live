@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, Depends
 from starlette.responses import JSONResponse
-from api.schemas.product import ProductList, ProductUpdatedSchema
 from api.cruds.product import create_product, delete_product, update_product
 from api.cruds.authentication import get_current_user_admin
+from api.schemas.product import ProductList, ProductUpdatedSchema
 
 router = APIRouter(tags=['Admin Product'], prefix='/admin/products')
 

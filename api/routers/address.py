@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, status
-from starlette.responses import JSONResponse
+from fastapi import APIRouter, Depends
 from api.cruds.address import create_address_for_user, append_address_user, update_address
 from api.cruds.authentication import get_current_user
 from api.schemas.address import Address, AddressList, AddressSchema, AddressSchemaUpdate
