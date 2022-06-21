@@ -5,7 +5,7 @@ class ProductSchema(BaseModel):
     name: str = Field(max_length=100)
     description: str
     price: float
-    image: str = Field(max_length=100, unique=True)
+    image: str
     code: int 
 
 class ProductUpdatedSchema(BaseModel):

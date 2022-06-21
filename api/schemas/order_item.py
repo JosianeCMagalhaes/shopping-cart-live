@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
-from api.models.order import OrderSchema
-from api.models.product import ProductSchema
+from api.schemas.order import OrderSchema
+from api.schemas.product import ProductSchema
 
 class OrderItemSchema(BaseModel):
     order: OrderSchema

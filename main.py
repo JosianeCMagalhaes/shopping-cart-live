@@ -16,4 +16,4 @@ app.add_event_handler('shutdown', close_conn_db)
 app.include_router(api_router)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=settings.HOST, port=8000, reload=True)
+    uvicorn.run(app, host=settings.HOST, port=3000, reload=True)

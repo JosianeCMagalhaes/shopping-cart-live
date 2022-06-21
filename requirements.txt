@@ -2,7 +2,9 @@ fastapi
 fastapi-mail
 uvicorn
 pydantic
-peewee
 redis
 motor
 logging
+python-decouple
+PyJWT
+passlib
