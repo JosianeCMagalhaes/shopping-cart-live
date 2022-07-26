@@ -1,0 +1,9 @@
+fastapi
+fastapi-mail
+uvicorn
+pydantic
+redis
+motor
+python-decouple
+PyJWT
+passlib
