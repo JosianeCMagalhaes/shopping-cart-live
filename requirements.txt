@@ -4,7 +4,6 @@ uvicorn
 pydantic
 redis
 motor
-logging
 python-decouple
 PyJWT
 passlib
