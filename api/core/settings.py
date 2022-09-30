@@ -4,7 +4,7 @@ from decouple import config
 
 
 class Settings(BaseSettings):
-    NAME_APP: str = 'Shopping Car'
+    NAME_APP: str = 'Shopping Cart'
     DATABASE_HOST: str = config('DATABASE_HOST')
     HOST: str = config('HOST')
     PORT: int = config('PORT')
