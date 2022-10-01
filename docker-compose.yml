@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+    environment:
+      - DATABASE_HOST=mongodb://database:27017
+  database:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
